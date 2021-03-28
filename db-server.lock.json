@@ -1,0 +1,250 @@
+{
+  "revision_id": "69a0d55c5c6bb8998c80dd894b97dda08c345ab501d0d3264ae981ae1362626f",
+  "name": "db-server",
+  "run_list": [
+    "recipe[bootstrap_a_node::default]",
+    "recipe[chef-client::default]",
+    "recipe[postgresql_setup::default]"
+  ],
+  "included_policy_locks": [
+
+  ],
+  "cookbook_locks": {
+    "apt": {
+      "version": "7.4.0",
+      "identifier": "634f4ce6dcc070473c8a1a0d6392f1e4a61cc4d2",
+      "dotted_decimal_identifier": "27953214403690608.20051287186695058.265964341740754",
+      "cache_key": "apt-7.4.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/apt/versions/7.4.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/apt/versions/7.4.0/download",
+        "version": "7.4.0"
+      }
+    },
+    "bootstrap_a_node": {
+      "version": "2.3.2",
+      "identifier": "47af9e9eec2af1c79aded230b75aaffd4fb773f7",
+      "dotted_decimal_identifier": "20177819152427761.56183802165245786.193502499009527",
+      "cache_key": "bootstrap_a_node-2.3.2",
+      "origin": "https://automate.cl/organizations/first-org",
+      "source_options": {
+        "chef_server": "https://automate.cl/organizations/first-org",
+        "version": "2.3.2"
+      }
+    },
+    "chef-client": {
+      "version": "12.3.3",
+      "identifier": "7ab37c81c66070be34d3a5f59cc9c94c87ad00e7",
+      "dotted_decimal_identifier": "34537294493278320.53538329202105545.221330530959591",
+      "cache_key": "chef-client-12.3.3-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/chef-client/versions/12.3.3/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/chef-client/versions/12.3.3/download",
+        "version": "12.3.3"
+      }
+    },
+    "chef_client_updater": {
+      "version": "3.11.1",
+      "identifier": "b51c39cb15b7d06bfbefb9f8e795823c7db8f076",
+      "dotted_decimal_identifier": "50978005330540496.30394829543892885.143196318920822",
+      "cache_key": "chef_client_updater-3.11.1-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/chef_client_updater/versions/3.11.1/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/chef_client_updater/versions/3.11.1/download",
+        "version": "3.11.1"
+      }
+    },
+    "cron": {
+      "version": "6.4.0",
+      "identifier": "c112ad00b72022a61c427b3deedef49b3a7e043d",
+      "dotted_decimal_identifier": "54345204755800098.46755917995044574.268947538445373",
+      "cache_key": "cron-6.4.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/cron/versions/6.4.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/cron/versions/6.4.0/download",
+        "version": "6.4.0"
+      }
+    },
+    "logrotate": {
+      "version": "2.3.0",
+      "identifier": "75c4e3e2c86d65f88e5fea6ac7ad97eaff009185",
+      "dotted_decimal_identifier": "33149055316553061.69962336830146477.167035556368773",
+      "cache_key": "logrotate-2.3.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/logrotate/versions/2.3.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/logrotate/versions/2.3.0/download",
+        "version": "2.3.0"
+      }
+    },
+    "postgresql": {
+      "version": "8.3.0",
+      "identifier": "1daf1f41216e44f440e85f4bc8d5f8e0bd066836",
+      "dotted_decimal_identifier": "8355323096165956.68751261092792533.273644127676470",
+      "cache_key": "postgresql-8.3.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/postgresql/versions/8.3.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/postgresql/versions/8.3.0/download",
+        "version": "8.3.0"
+      }
+    },
+    "postgresql_setup": {
+      "version": "0.1.0",
+      "identifier": "8753a2fff2651c16296f9fd8bc49c7d7ecabb102",
+      "dotted_decimal_identifier": "38091081399821596.6238008887524425.219730202571010",
+      "cache_key": "postgresql_setup-0.1.0",
+      "origin": "https://automate.cl/organizations/first-org",
+      "source_options": {
+        "chef_server": "https://automate.cl/organizations/first-org",
+        "version": "0.1.0"
+      }
+    },
+    "slack_handler": {
+      "version": "1.0.0",
+      "identifier": "1d7376cf1221a8976fa8b3ae513aacd0d5f5397a",
+      "dotted_decimal_identifier": "8289728442016168.42625491843043642.190012942793082",
+      "cache_key": "slack_handler-1.0.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/slack_handler/versions/1.0.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/slack_handler/versions/1.0.0/download",
+        "version": "1.0.0"
+      }
+    },
+    "yum-epel": {
+      "version": "4.1.1",
+      "identifier": "0e78ccdfd029febc444c5df7ee228b29df337b49",
+      "dotted_decimal_identifier": "4073470997572094.52992390406336034.153011954613065",
+      "cache_key": "yum-epel-4.1.1-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/yum-epel/versions/4.1.1/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/yum-epel/versions/4.1.1/download",
+        "version": "4.1.1"
+      }
+    }
+  },
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "bootstrap_a_node": {
+      "policy_name": "db-server",
+      "policy_group": "staging",
+      "chef_client": {
+        "version": "16"
+      },
+      "timezone": "Asia/Tokyo"
+    },
+    "chef_client": {
+      "handler": {
+        "slack": {
+          "enabled": false
+        }
+      },
+      "interval": 43200,
+      "splay": 21600
+    }
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "apt",
+        "= 7.4.0"
+      ],
+      [
+        "bootstrap_a_node",
+        "= 2.3.2"
+      ],
+      [
+        "chef-client",
+        "= 12.3.3"
+      ],
+      [
+        "chef_client_updater",
+        "= 3.11.1"
+      ],
+      [
+        "cron",
+        "= 6.4.0"
+      ],
+      [
+        "logrotate",
+        "= 2.3.0"
+      ],
+      [
+        "postgresql",
+        "= 8.3.0"
+      ],
+      [
+        "postgresql_setup",
+        "= 0.1.0"
+      ],
+      [
+        "slack_handler",
+        "= 1.0.0"
+      ],
+      [
+        "yum-epel",
+        "= 4.1.1"
+      ]
+    ],
+    "dependencies": {
+      "apt (7.4.0)": [
+
+      ],
+      "bootstrap_a_node (2.3.2)": [
+        [
+          "slack_handler",
+          ">= 0.0.0"
+        ],
+        [
+          "chef_client_updater",
+          ">= 0.0.0"
+        ],
+        [
+          "chef-client",
+          ">= 0.0.0"
+        ]
+      ],
+      "chef-client (12.3.3)": [
+        [
+          "cron",
+          ">= 4.2.0"
+        ],
+        [
+          "logrotate",
+          ">= 1.9.0"
+        ]
+      ],
+      "chef_client_updater (3.11.1)": [
+
+      ],
+      "cron (6.4.0)": [
+
+      ],
+      "logrotate (2.3.0)": [
+
+      ],
+      "postgresql (8.3.0)": [
+        [
+          "yum-epel",
+          ">= 0.0.0"
+        ],
+        [
+          "apt",
+          ">= 0.0.0"
+        ]
+      ],
+      "postgresql_setup (0.1.0)": [
+        [
+          "postgresql",
+          ">= 0.0.0"
+        ]
+      ],
+      "slack_handler (1.0.0)": [
+
+      ],
+      "yum-epel (4.1.1)": [
+
+      ]
+    }
+  }
+}
