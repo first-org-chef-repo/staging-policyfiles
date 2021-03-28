@@ -6,9 +6,8 @@
 name 'web-server'
 default_source :chef_server, 'https://automate.cl/organizations/first-org'
 default_source :supermarket
-run_list 'bootstrap_a_node::default', 'chef-client::default', 'nginx_setup::default'
-cookbook 'bootstrap_a_node'
-cookbook 'chef-client', '~> 12.3.3', :supermarket
+run_list 'bootstrap_a_node::default', 'nginx_setup::default'
+cookbook 'bootstrap_a_node', '2.3.2'
 cookbook 'nginx_setup', '1.0.0', git: 'git@github.com:first-org-chef-repo/nginx_setup-cookbook.git', tag: 'v1.1'
 # cookbook 'nginx_setup', '2.0.0', git: 'git@github.com:first-org-chef-repo/nginx_setup-cookbook.git', tag: 'v2.0'
 

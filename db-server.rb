@@ -6,8 +6,8 @@
 name 'db-server'
 default_source :chef_server, 'https://automate.cl/organizations/first-org'
 default_source :supermarket
-run_list 'bootstrap_a_node::default', 'chef-client::default', 'postgresql_setup::default'
-cookbook 'bootstrap_a_node'
+run_list 'bootstrap_a_node::default', 'postgresql_setup::default'
+cookbook 'bootstrap_a_node', '2.3.2'
 cookbook 'postgresql_setup'
 cookbook 'chef-client', '~> 12.3.3', :supermarket
 
