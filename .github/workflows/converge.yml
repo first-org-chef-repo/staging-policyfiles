@@ -13,10 +13,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
-      - name: Install ChefWorkstation v21.2.278
+      - name: Check ChefWorkstation v21.2.278
         run: ｜
-          wget -P $GITHUB_WORKSPACE https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
-          dpkg -i $GITHUB_WORKSPACE/chef-workstation_21.2.278-1_amd64.deb
           chef -v
       - name: Create client.pem
         env:
