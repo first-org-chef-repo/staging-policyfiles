@@ -21,11 +21,6 @@ jobs:
         run: |
           touch .chef/r-goto.pem
           echo $admin_client_key >> .chef/r-goto.pem
-      - name: Prep /etc/hosts
-        env:
-          all_nodes_etc_hosts:  ${{ secrets.all_nodes_etc_hosts }}
-        run:
-          sudo echo $all_nodes_etc_hosts >> /etc/hosts
       
   Push_New_Policyfile:
     runs-on: self-hosted
