@@ -25,7 +25,7 @@ jobs:
         env:
           all_nodes_etc_hosts:  ${{ secrets.all_nodes_etc_hosts }}
         run:
-          echo $all_nodes_etc_hosts >> /etc/hosts
+          sudo echo $all_nodes_etc_hosts >> /etc/hosts
       
   Push_New_Policyfile:
     runs-on: self-hosted
