@@ -14,8 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check ChefWorkstation v21.2.278
-        run: ｜
-          echo "Skipping here"
+        run: echo Hello, world!
       - name: Create client.pem
         env:
           admin_client_key: ${{ secrets.admin_client_key }}
