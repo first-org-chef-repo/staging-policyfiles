@@ -1,0 +1,50 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Converge
+
+on:
+  push:
+    branches: 
+      - main
+  workflow_dispatch:
+
+jobs:
+  Setup_ChefWorkstation:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install ChefWorkstation v21.2.278
+        run: ｜
+          wget -P $GITHUB_WORKSPACE https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
+          dpkg -i $GITHUB_WORKSPACE/chef-workstation_21.2.278-1_amd64.deb
+          chef -v
+      - name: Create client.pem
+        env:
+          admin_client_key: ${{ secrets.admin_client_key }}
+        run: |
+          touch .chef/r-goto.pem
+          echo $admin_client_key >> .chef/r-goto.pem
+      - name: Prep /etc/hosts
+        env:
+          all_nodes_etc_hosts:  ${{ secrets.all_nodes_etc_hosts }}
+        run:
+          echo $all_nodes_etc_hosts >> /etc/hosts
+      
+  Push_New_Policyfile:
+    runs-on: self-hosted
+    needs: Setup_ChefWorkstation
+    steps:
+      - name: Create/push Policyfile.lock
+        run: |
+          chef update db-server.rb
+          chef update web-server.rb
+          chef push staging db-server.rb
+          chef push staging web-server.rb
+  
+  Converge_nodes:
+    runs-on: self-hosted
+    needs: Push_New_Policyfile
+    steps:
+      - name: Create/push Policyfile.lock
+        run: 
+          knife ssh 'policy_group:staging' 'sudo chef-client'
