@@ -12,20 +12,14 @@ jobs:
   Setup_ChefWorkstation:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
       - name: Check ChefWorkstation v21.2.278
-        run: echo Hello, world!
-      - name: Create client.pem
-        env:
-          admin_client_key: ${{ secrets.admin_client_key }}
-        run: |
-          touch .chef/r-goto.pem
-          echo $admin_client_key >> .chef/r-goto.pem
+        run: chef -v
       
   Push_New_Policyfile:
     runs-on: self-hosted
     needs: Setup_ChefWorkstation
     steps:
+      - uses: actions/checkout@v2
       - name: Create/push Policyfile.lock
         run: |
           chef update db-server.rb
