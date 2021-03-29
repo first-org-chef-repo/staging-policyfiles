@@ -7,6 +7,7 @@ current_dir = File.dirname(__FILE__)
   cookbook_copyright       "First Org Cookbooks"
   cookbook_license         "Apache-2.0"
   cookbook_email           "cookbooks@first.org"
+  chef_license             'accept'
 
   # Amazon AWS
   knife[:aws_access_key_id] = ENV['AWS_ACCESS_KEY_ID']
