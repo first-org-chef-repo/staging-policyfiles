@@ -13,8 +13,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Check ChefWorkstation v21.2.278
-        run: chef -v
-      
+        run: |
+          wget https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
+          sudo dpkg -i chef-workstation_21.2.278-1_amd64.deb
+          chef -v
   Push_New_Policyfile:
     runs-on: self-hosted
     needs: Setup_ChefWorkstation
@@ -22,10 +24,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create/push Policyfile.lock
         run: |
-          chef update db-server.rb
-          chef update web-server.rb
-          chef push staging db-server.rb
-          chef push staging web-server.rb
+          chef update db-server.rb -c /home/r-goto/.chef/config.rb
+          chef update web-server.rb -c /home/r-goto/.chef/config.rb
+          chef push staging db-server.rb -c /home/r-goto/.chef/config.rb
+          chef push staging web-server.rb -c /home/r-goto/.chef/config.rb
   
   Converge_nodes:
     runs-on: self-hosted
