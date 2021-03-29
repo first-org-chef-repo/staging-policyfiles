@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Check ChefWorkstation v21.2.278
         run: |
-          wget https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
-          sudo dpkg -i chef-workstation_21.2.278-1_amd64.deb
+          wget -q https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
+          dpkg -i chef-workstation_21.2.278-1_amd64.deb
           chef -v
   Push_New_Policyfile:
     runs-on: self-hosted
