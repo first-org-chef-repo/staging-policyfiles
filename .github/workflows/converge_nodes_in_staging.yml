@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Converge
+name: Converge All Nodes 
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
           sudo dpkg -i chef-workstation_21.2.278-1_amd64.deb
           chef -v
 
-  Push-NewPolicyfile:
+  Push-Policyfiles-to-ChefServer:
     runs-on: self-hosted
     needs: Setup-ChefWorkstation
     steps:
@@ -37,7 +37,7 @@ jobs:
   
   Converge-Nodes:
     runs-on: self-hosted
-    needs: Push-NewPolicyfile
+    needs: Push-Policyfiles-to-ChefServer
     steps:
       - name: Create/push Policyfile.lock
         run: 
