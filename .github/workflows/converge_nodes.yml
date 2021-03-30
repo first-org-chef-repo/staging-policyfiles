@@ -6,11 +6,6 @@ on:
   push:
     branches: 
       - main
-    paths-ignore:
-      - 'test/*'
-      - '.chef/*'
-      - '.github/*'
-      - '.gitignore'
     paths:
       - 'db-server.rb'
       - 'web-server.rb'
