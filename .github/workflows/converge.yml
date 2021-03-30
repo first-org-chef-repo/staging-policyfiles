@@ -46,4 +46,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Run Inspec
-        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i`; do inspec exec test.rb --host=$i; done
+        run: |
+          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --host=$i; done
+          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --host=$i; done
