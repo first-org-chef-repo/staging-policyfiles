@@ -11,8 +11,11 @@ on:
       - '.chef/*'
       - '.github/*'
       - '.gitignore'
+    paths:
+      - 'db-server.rb'
+      - 'web-server.rb'
   workflow_dispatch:
-
+  
 jobs:
   Setup-ChefWorkstation:
     runs-on: self-hosted
