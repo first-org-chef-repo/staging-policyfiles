@@ -49,5 +49,5 @@ jobs:
       - name: Run Inspec
         continue-on-error: true
         run: |
-          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure'; done
-          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure'; done
+          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb | sort`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure'; done
+          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb | sort`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure'; done
