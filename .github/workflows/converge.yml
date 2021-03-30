@@ -11,9 +11,9 @@ on:
 jobs:
   Setup_ChefWorkstation:
     runs-on: self-hosted
-    continue-on-error: true
     steps:
       - name: Checking if installation required
+        continue-on-error: true
         id: check
         run: sudo dpkg -l | grep chef
       - name: Installing ChefWorkstation v21.2.278
