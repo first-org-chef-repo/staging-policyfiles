@@ -47,6 +47,7 @@ jobs:
     needs: Converge_nodes
     steps:
       - name: Run Inspec
+        continue-on-error: true
         run: |
-          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --host=$i; done
-          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --host=$i; done
+          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb`; do echo $i && inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --host=$i; done
+          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb`; do echo $i && inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --host=$i; done
