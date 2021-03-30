@@ -35,4 +35,4 @@ jobs:
     steps:
       - name: Create/push Policyfile.lock
         run: 
-          knife ssh 'policy_group:staging' 'sudo chef-client'
+          knife ssh 'policy_group:staging' 'sudo chef-client' -c /home/r-goto/.chef/config.rb
