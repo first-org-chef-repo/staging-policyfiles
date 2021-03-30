@@ -11,6 +11,7 @@ on:
 jobs:
   Setup_ChefWorkstation:
     runs-on: self-hosted
+    continue-on-error: true
     steps:
       - name: Checking if installation required
         id: check
