@@ -7,8 +7,7 @@ on:
     branches: 
       - main
     paths:
-      - 'db-server.rb'
-      - 'web-server.rb'
+      - 'policyfiles/**'
   workflow_dispatch:
   
 jobs:
@@ -33,10 +32,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create/push Policyfile.lock
         run: |
-          chef update db-server.rb -c /home/r-goto/.chef/config.rb
-          chef update web-server.rb -c /home/r-goto/.chef/config.rb
-          chef push staging db-server.rb -c /home/r-goto/.chef/config.rb
-          chef push staging web-server.rb -c /home/r-goto/.chef/config.rb
+          chef update policyfiles/db-server.rb -c /home/r-goto/.chef/config.rb
+          chef update policyfiles/web-server.rb -c /home/r-goto/.chef/config.rb
+          chef push staging policyfiles/db-server.rb -c /home/r-goto/.chef/config.rb
+          chef push staging policyfiles/web-server.rb -c /home/r-goto/.chef/config.rb
   
   Converge-Nodes:
     runs-on: self-hosted
