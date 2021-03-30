@@ -17,7 +17,7 @@ jobs:
         id: check
         run: sudo dpkg -l | grep chef
       - name: Installing ChefWorkstation v21.2.278
-        if: steps.check.conclusion == 'failure'
+        if: steps.check.outcome == 'failure'
         run: |
           wget -q https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
           sudo dpkg -i chef-workstation_21.2.278-1_amd64.deb
