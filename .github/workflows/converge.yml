@@ -42,3 +42,8 @@ jobs:
       - name: Create/push Policyfile.lock
         run: 
           knife ssh 'policy_group:staging' 'sudo chef-client' -c /home/r-goto/.chef/config.rb
+  Integration_Test:
+    runs-on: self-hosted
+    steps:
+      - name: Run Inspec
+        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i`; do inspec exec test.rb --host=$i; done
