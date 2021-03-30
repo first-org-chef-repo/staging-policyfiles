@@ -7,10 +7,10 @@ on:
     branches: 
       - main
     paths-ignore:
-      - test
-      - .chef
-      - .github
-      - .gitignore
+      - 'test/*'
+      - '.chef/*'
+      - '.github/*'
+      - '.gitignore'
   workflow_dispatch:
 
 jobs:
