@@ -15,7 +15,7 @@ jobs:
       - name: Checking if installation required
         continue-on-error: true
         id: check
-        run: sudo dpkg -l | grep chef && echo "Skipping installation as it's already installed..."
+        run: sudo dpkg -l | grep chef
       - name: Installing ChefWorkstation v21.2.278
         if: steps.check.outcome == 'failure'
         run: |
