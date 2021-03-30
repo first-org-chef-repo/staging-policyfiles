@@ -44,8 +44,9 @@ jobs:
           knife ssh 'policy_group:staging' 'sudo chef-client' -c /home/r-goto/.chef/config.rb
   Integration_Test:
     runs-on: self-hosted
+    needs: Converge_nodes
     steps:
       - name: Run Inspec
         run: |
-          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --host=$i; done
-          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --host=$i; done
+          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --host=$i; done
+          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --host=$i; done
