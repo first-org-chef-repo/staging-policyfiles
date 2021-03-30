@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Checking if installation required
         id: check
-        run: sudo dpkg -l | grep chef
+        run: sudo dpkg -l | grep bash
 
   Push_New_Policyfile:
     runs-on: self-hosted
