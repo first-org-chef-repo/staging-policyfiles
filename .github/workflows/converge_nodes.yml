@@ -42,7 +42,7 @@ jobs:
       - name: Create/push Policyfile.lock
         run: 
           knife ssh 'policy_group:staging' 'sudo chef-client' -c /home/r-goto/.chef/config.rb
-  Integration-Test:
+  Test:
     runs-on: self-hosted
     needs: Converge-Nodes
     steps:
