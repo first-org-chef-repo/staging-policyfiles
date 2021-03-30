@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Setup_ChefWorkstation:
+  Setup-ChefWorkstation:
     runs-on: self-hosted
     steps:
       - name: Checking if installation required
@@ -23,9 +23,9 @@ jobs:
           sudo dpkg -i chef-workstation_21.2.278-1_amd64.deb
           chef -v
 
-  Push_New_Policyfile:
+  Push-NewPolicyfile:
     runs-on: self-hosted
-    needs: Setup_ChefWorkstation
+    needs: Setup-ChefWorkstation
     steps:
       - uses: actions/checkout@v2
       - name: Create/push Policyfile.lock
@@ -35,19 +35,19 @@ jobs:
           chef push staging db-server.rb -c /home/r-goto/.chef/config.rb
           chef push staging web-server.rb -c /home/r-goto/.chef/config.rb
   
-  Converge_nodes:
+  Converge-Nodes:
     runs-on: self-hosted
-    needs: Push_New_Policyfile
+    needs: Push-NewPolicyfile
     steps:
       - name: Create/push Policyfile.lock
         run: 
           knife ssh 'policy_group:staging' 'sudo chef-client' -c /home/r-goto/.chef/config.rb
-  Integration_Test:
+  Integration-Test:
     runs-on: self-hosted
-    needs: Converge_nodes
+    needs: Converge-Nodes
     steps:
       - name: Run Inspec
         continue-on-error: true
         run: |
-          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --target ssh://r-goto@$i; done
-          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --target ssh://r-goto@$i; done
+          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
+          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
