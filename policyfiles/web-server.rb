@@ -16,8 +16,8 @@ cookbook 'nginx_setup', '2.0.0', git: 'git@github.com:first-org-chef-repo/nginx_
 ##########
 
 # Specify CCR interval and splay
-override['chef_client']['interval'] = 43200 # 12H
-override['chef_client']['splay'] = 21600 # 6H
+override['chef_client']['interval'] = 86400 # 24H
+override['chef_client']['splay'] = 3600 # 1H
 
 # Specify Policy name & Policy group
 override['bootstrap_a_node']['policy_name'] = 'web-server'
