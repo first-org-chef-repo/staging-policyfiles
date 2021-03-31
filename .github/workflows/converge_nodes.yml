@@ -32,10 +32,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create/push Policyfile.lock
         run: |
-          chef update policyfiles/db-server.rb -c /home/r-goto/.chef/config.rb
-          chef update policyfiles/web-server.rb -c /home/r-goto/.chef/config.rb
-          chef push staging policyfiles/db-server.rb -c /home/r-goto/.chef/config.rb
-          chef push staging policyfiles/web-server.rb -c /home/r-goto/.chef/config.rb
+          chef update policyfiles/db-server.rb -c $GITHUB_WORKSPACE/.chef/config.rb
+          chef update policyfiles/web-server.rb -c $GITHUB_WORKSPACE/.chef/config.rb
+          chef push staging policyfiles/db-server.rb -c $GITHUB_WORKSPACE/.chef/config.rb
+          chef push staging policyfiles/web-server.rb -c $GITHUB_WORKSPACE/.chef/config.rb
   
   Converge-Nodes:
     runs-on: self-hosted
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Create/push Policyfile.lock
         run: 
-          knife ssh 'policy_group:staging' 'sudo chef-client' -c /home/r-goto/.chef/config.rb
+          knife ssh 'policy_group:staging' 'sudo chef-client' -c $GITHUB_WORKSPACE/.chef/config.rb
   Test:
     runs-on: self-hosted
     needs: Converge-Nodes
@@ -51,5 +51,5 @@ jobs:
       - name: Run Inspec
         continue-on-error: true
         run: |
-          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c /home/r-goto/.chef/config.rb | sort`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure!'; done
-          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c /home/r-goto/.chef/config.rb | sort`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure!'; done
+          for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c $GITHUB_WORKSPACE/.chef/config.rb | sort`; do inspec exec $GITHUB_WORKSPACE/test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure!'; done
+          for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c $GITHUB_WORKSPACE/.chef/config.rb | sort`; do inspec exec $GITHUB_WORKSPACE/test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo 'Inspec failure!'; done
