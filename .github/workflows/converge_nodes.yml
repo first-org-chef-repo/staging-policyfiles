@@ -14,15 +14,17 @@ jobs:
   Setup-ChefWorkstation:
     runs-on: self-hosted
     steps:
-      - name: Checking if installation required
+      - name: Chef Installed?
         continue-on-error: true
-        id: check
-        run: sudo dpkg -l | grep chef
-      - name: Installing ChefWorkstation v21.2.278
-        if: steps.check.outcome == 'failure'
+        id: check-chef
+        run: chef -v
+        
+      - name: Install ChefWorkstation v21.2.278
+        if: steps.check-chef.outcome == 'failure'
         run: |
-          wget -q https://packages.chef.io/files/stable/chef-workstation/21.2.278/ubuntu/20.04/chef-workstation_21.2.278-1_amd64.deb
-          sudo dpkg -i chef-workstation_21.2.278-1_amd64.deb
+          wget https://packages.chef.io/files/stable/chef-workstation/21.2.278/el/8/chef-workstation-21.2.278-1.el7.x86_64.rpm
+          sudo rpm -ivh chef-workstation-21.2.278-1.el7.x86_64.rpm
+          rm chef-workstation-21.2.278-1.el7.x86_64.rpm
           chef -v
 
   Push-Policyfiles-to-ChefServer:
