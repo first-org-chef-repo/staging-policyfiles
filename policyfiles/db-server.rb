@@ -6,26 +6,25 @@
 name 'db-server'
 default_source :chef_server, 'https://automate.cl/organizations/first-org'
 run_list 'bootstrap_a_node::default', 'postgresql_setup::default'
-cookbook 'bootstrap_a_node', '2.3.2'
-cookbook 'postgresql_setup', '0.1.0'
+cookbook 'bootstrap_a_node', '3.0.0'
+cookbook 'postgresql_setup', '1.0.0'
 
 ##########
 # Attributes
 ##########
+
+# Specify CCR interval and splay
+override['chef_client']['interval'] = 86400 # 24H
+override['chef_client']['splay'] = 3600 # 1H
 
 # Specify Policy name & Policy group
 override['bootstrap_a_node']['policy_name'] = 'db-server'
 override['bootstrap_a_node']['policy_group'] = 'staging'
 
 # Specify chef-client version
-override['bootstrap_a_node']['chef_client']['version'] = '16'
+override['bootstrap_a_node']['chef_client']['version'] = '16.11.7'
 
 # Disable Slack Notification that's set only for the initial CCR
 override['chef_client']['handler']['slack']['enabled'] = false
-
-# Specify CCR interval and splay
-override['chef_client']['interval'] = 86400 # 12H
-override['chef_client']['splay'] = 3600 # 6H
-
 # Specify node Time Zone
 override['bootstrap_a_node']['timezone'] = 'Asia/Tokyo'
