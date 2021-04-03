@@ -41,7 +41,7 @@ jobs:
   
   Converge-Nodes:
     runs-on: self-hosted
-    needs: Push-Policyfile-to-ChefServer
+    needs: Push-Policyfile
     environment:
       name: staging
     steps:
