@@ -64,6 +64,6 @@ jobs:
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
           
-      - name: ATTENTION Rolling Back policyfile
+      - name: Incase of Inspec Failure...
         if: steps.inspec-check-last.outcome != 'success'
-        run: echo "!!!ATENTION!!! Some sort of notifications must sent. Insec Test Failling!!!!"
+        run: echo "!!!ATENTION!!! Some sort of notifications must be sent. Insec Test Failling!!!!"
