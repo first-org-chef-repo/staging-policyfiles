@@ -6,7 +6,7 @@
 name 'web-server'
 default_source :chef_server, 'https://automate.cl/organizations/first-org'
 run_list 'bootstrap_a_node::default', 'nginx_setup::default'
-cookbook 'bootstrap_a_node', '3.0.0'
+cookbook 'bootstrap_a_node', '1.0.0'
 cookbook 'nginx_setup', '1.0.0'
 
 ##########
