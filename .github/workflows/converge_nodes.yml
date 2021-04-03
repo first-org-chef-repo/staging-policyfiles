@@ -56,12 +56,12 @@ jobs:
     steps:
       - name: Running Inspec (WEB servers)
         id: inspec-check-1
-        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared
+        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
 
       - name: Running Inspec (DB servers)
         if: steps.inspec-check-1.outcome == 'success'
         id: inspec-check-last
-        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared
+        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
           
       - name: ATTENTION Rolling Back policyfile
         if: steps.inspec-check-last.outcome != 'success'
