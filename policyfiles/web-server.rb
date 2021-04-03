@@ -22,7 +22,7 @@ override['bootstrap_a_node']['policy_name'] = 'web-server'
 override['bootstrap_a_node']['policy_group'] = 'staging'
 
 # Specify chef-client version
-override['bootstrap_a_node']['chef_client']['version'] = '16.10'
+override['bootstrap_a_node']['chef_client']['version'] = '16'
 
 # Disable Slack Notification that's set only for the initial CCR
 override['chef_client']['handler']['slack']['enabled'] = false
