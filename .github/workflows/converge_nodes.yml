@@ -19,7 +19,7 @@ jobs:
         id: check-chef
         run: chef -v
         
-      - name: Install ChefWorkstation v21.2.278
+      - name: Installing ChefWorkstation v21.2.278
         if: steps.check-chef.outcome == 'failure'
         run: |
           wget https://packages.chef.io/files/stable/chef-workstation/21.2.278/el/8/chef-workstation-21.2.278-1.el7.x86_64.rpm
@@ -27,12 +27,12 @@ jobs:
           rm chef-workstation-21.2.278-1.el7.x86_64.rpm
           chef -v
 
-  Push-Policyfiles-to-ChefServer:
+  Push-Policyfile-to-ChefServer:
     runs-on: self-hosted
     needs: Setup-ChefWorkstation
     steps:
       - uses: actions/checkout@v2
-      - name: Create/push Policyfile.lock
+      - name: Pushing Policyfile to ChefServer
         run: |
           chef update policyfiles/db-server.rb -c .chef/config.rb
           chef update policyfiles/web-server.rb -c .chef/config.rb
@@ -41,11 +41,11 @@ jobs:
   
   Converge-Nodes:
     runs-on: self-hosted
-    needs: Push-Policyfiles-to-ChefServer
+    needs: Push-Policyfile-to-ChefServer
     environment:
       name: staging
     steps:
-      - name: Create/push Policyfile.lock
+      - name: Converging all staging nodes...
         run: 
           knife ssh 'policy_group:staging' 'sudo chef-client' -c .chef/config.rb
           
@@ -54,15 +54,15 @@ jobs:
     needs: Converge-Nodes
     continue-on-error: true
     steps:
-      - name: Run Inspec (WEB servers)
+      - name: Running Inspec (WEB servers)
         id: inspec-check-1
         run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared
 
-      - name: Run Inspec (DB servers)
+      - name: Running Inspec (DB servers)
         if: steps.inspec-check-1.outcome == 'success'
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared
           
-      - name: Roll Back policyfile
+      - name: ATTENTION Rolling Back policyfile
         if: steps.inspec-check-last.outcome != 'success'
         run: echo "Policyfile Roll Back process should run here."
