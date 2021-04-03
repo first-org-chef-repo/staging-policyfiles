@@ -27,7 +27,7 @@ jobs:
           rm chef-workstation-21.2.278-1.el7.x86_64.rpm
           chef -v
 
-  Push-Policyfile-to-ChefServer:
+  Push-Policyfile:
     runs-on: self-hosted
     needs: Setup-ChefWorkstation
     steps:
@@ -52,17 +52,18 @@ jobs:
   Inspec-Test:
     runs-on: self-hosted
     needs: Converge-Nodes
-    continue-on-error: true
     steps:
       - name: Running Inspec (WEB servers)
+        continue-on-error: true
         id: inspec-check-1
         run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
 
       - name: Running Inspec (DB servers)
+        continue-on-error: true
         if: steps.inspec-check-1.outcome == 'success'
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
           
       - name: ATTENTION Rolling Back policyfile
         if: steps.inspec-check-last.outcome != 'success'
-        run: echo "Policyfile Roll Back process should run here."
+        run: echo "!!!ATENTION!!! Some sort of notifications must sent. Insec Test Failling!!!!"
