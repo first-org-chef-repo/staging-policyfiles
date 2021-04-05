@@ -74,7 +74,7 @@ jobs:
         run: for i in `knife search 'policy_group:staging' -i -c .chef/config.rb | sort`; do inspec exec test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "重大なセキュリティ問題が検知されました。"; done
       
       - name: test
-        run: echo "$steps.security-check.outputs"
+        run: echo "${{ steps.security-check.outputs }}"
         
       - name: Slack Notification
         if: contains ( steps.security-check.outputs, '重大なセキュリティ問題' )
