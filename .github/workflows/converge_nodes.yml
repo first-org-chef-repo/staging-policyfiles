@@ -88,11 +88,3 @@ jobs:
       - name: セキュリティステータス
         if: steps.inspec-check-1.outcome == 'success'
         run: echo "!!!!検証環境ノードに重大なセキュリティ問題が検知されました!!!" && exit 1
-      
-      
-      
-      
-      
-      
-      
-      
