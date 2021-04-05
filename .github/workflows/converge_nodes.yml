@@ -53,22 +53,26 @@ jobs:
     runs-on: self-hosted
     needs: Converge-Nodes
     steps:
-      - name: Running Inspec (WEB servers)
+      - name: Running Inspec テスト (WEB servers)
         continue-on-error: true
         id: inspec-check-1
         run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
 
-      - name: Running Inspec (DB servers)
+      - name: Running Inspec テスト (DB servers)
         continue-on-error: true
         if: steps.inspec-check-1.outcome == 'success'
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
      
-      - name: Running Inspec (DB servers)
+      - name: セキュリティ監査
         continue-on-error: true
         if: always()
-        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
- 
-      - name: Incase of Inspec Failure...
-        if: steps.inspec-check-last.outcome != 'success'
-        run: echo "!!!ATENTION!!! Some sort of notifications must be sent. Insec Test Failling!!!!"
+        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "$i：セキュリティに問題があることが検知されました"; done
+      
+      - name: Slack Notification
+        if: steps.inspec-check-1.outcome == 'failure'
+        uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: "!!!!検証環境ノードに重大なセキュリティ問題が検知されました!!!"
