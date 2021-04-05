@@ -64,18 +64,32 @@ jobs:
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
  
-  Secuity-Test:
+  Secuity-Check:
     runs-on: self-hosted
     needs: Inspec-Test
     steps:
       - name: Running SSH セキュリティ テスト
         continue-on-error: true
-        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
+        id: security-check
+        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "重大なセキュリティ問題が検知されました。"; done
       
       - name: Slack Notification
-        if: steps.inspec-check-1.outcome == 'failure'
+        if: contains ( steps.security-check.outputs, '重大なセキュリティ問題' )
+        id: slack-notif
         uses: tokorom/action-slack-incoming-webhook@main
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           text: "!!!!検証環境ノードに重大なセキュリティ問題が検知されました!!!"
+      
+      - name: セキュリティステータス
+        if: steps.inspec-check-1.outcome == 'success'
+        run: echo "!!!!検証環境ノードに重大なセキュリティ問題が検知されました!!!" && exit 1
+      
+      
+      
+      
+      
+      
+      
+      
