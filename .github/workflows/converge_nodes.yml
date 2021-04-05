@@ -63,7 +63,12 @@ jobs:
         if: steps.inspec-check-1.outcome == 'success'
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
-          
+     
+      - name: Running Inspec (DB servers)
+        continue-on-error: true
+        if: always()
+        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared; done
+ 
       - name: Incase of Inspec Failure...
         if: steps.inspec-check-last.outcome != 'success'
         run: echo "!!!ATENTION!!! Some sort of notifications must be sent. Insec Test Failling!!!!"
