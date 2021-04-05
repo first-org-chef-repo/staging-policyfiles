@@ -52,6 +52,7 @@ jobs:
   Inspec-Test:
     runs-on: self-hosted
     needs: Converge-Nodes
+    continue-on-error: true
     steps:
       - name: Running Inspec テスト (WEB servers)
         continue-on-error: true
@@ -73,7 +74,7 @@ jobs:
         with:
           text: "※※※※※機能不具合が検知されました。※※※※※"
       
-      - name: 結合テスト結果
+      - name: Inspecテスト結果 
         if: steps.slack-notif.outcome == 'success'
         run: echo "※※※※※機能不具合が検知されました。※※※※※" && exit 1
 
