@@ -8,7 +8,7 @@ default_source :chef_server, 'https://automate.cl/organizations/first-org'
 run_list 'bootstrap_a_node::default', 'postgresql_setup::default', 'ssh_setup::default'
 cookbook 'bootstrap_a_node', '1.0.0'
 cookbook 'postgresql_setup', '1.0.0'
-cookbook 'ssh_setup', '2.0.0'
+cookbook 'ssh_setup', '1.0.0'
 
 ##########
 # Attributes
