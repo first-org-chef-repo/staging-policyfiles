@@ -1,10 +1,3 @@
-control 'デーモン確認' do
-  describe service('sshd') do
-    it { should be_running }
-    it { should be_enabled }
-  end
-end
-
 control 'ディレクトリ 所有者、グループ、権限の確認' do
   describe file('/etc/ssh') do
     it { should exist }
