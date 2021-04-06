@@ -16,8 +16,3 @@ when 'debian' || 'ubuntu'
     it { should be_enabled }
   end
 end
-
-  describe service('postgresql') do
-    it { should be_running }
-    it { should be_enabled }
-  end

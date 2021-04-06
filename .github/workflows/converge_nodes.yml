@@ -54,14 +54,14 @@ jobs:
     needs: Converge-Nodes
     continue-on-error: true
     steps:
-      # - name: Running InSpec 正常性テスト (WEB servers)
-      #   continue-on-error: true
-      #   id: inspec-check-1
-      #   run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC_RESULT::機能不具合の検知"; done
+      - name: Running InSpec 正常性テスト (WEB servers)
+        continue-on-error: true
+        id: inspec-check-1
+        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC_RESULT::機能不具合の検知"; done
 
       - name: Running InSpec 正常性テスト (DB servers)
         continue-on-error: true
-        # if: steps.inspec-check-1.outcome == 'success'
+        if: steps.inspec-check-1.outcome == 'success'
         id: inspec-check-last
         run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared　|| echo "::set-output name=INSPEC_RESULT::機能不具合の検知"; done
 
