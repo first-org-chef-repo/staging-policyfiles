@@ -42,8 +42,8 @@ jobs:
   Converge-Nodes:
     runs-on: self-hosted
     needs: Push-Policyfile
-#     environment:
-#       name: staging
+    environment:
+      name: staging
     steps:
       - name: Converging all staging nodes...
         run: 
@@ -56,18 +56,16 @@ jobs:
     steps:
       - name: Running InSpec 正常性テスト (WEB servers)
         continue-on-error: true
-        id: inspec-check-1
-        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --sudo --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC-CHECK-1::機能不具合の検知"; done
+        run: for i in `knife search 'policy_group:staging AND policy_name:web-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_nginx_test.rb --sudo --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC-RESULT::機能不具合の検知"; done
 
       - name: Running InSpec 正常性テスト (DB servers)
         continue-on-error: true
         if: steps.inspec-check-1.outcome == 'success'
-        id: inspec-check-last
-        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --sudo --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC-CHECK-LAST::機能不具合の検知"; done
+        run: for i in `knife search 'policy_group:staging AND policy_name:db-server' -i -c .chef/config.rb | sort`; do inspec exec test/setup_postgresql_test.rb --sudo --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC-RESULT::機能不具合の検知"; done
 
-      - name: 不具合通知
+      - name: 不具合通知 (slack)
         continue-on-error: true
-        if: contains ( steps.inspec-check-1.outputs.INSPEC-CHECK-1, '機能不具合の検知' )　|| contains ( steps.inspec-check-last.outputs.INSPEC-CHECK-LAST, '機能不具合の検知' )
+        if: contains ( steps.inspec-check-1.outputs.INSPEC-RESULT, '機能不具合の検知' )　|| contains ( steps.inspec-check-last.outputs.INSPEC-RESULT, '機能不具合の検知' )
         uses: tokorom/action-slack-incoming-webhook@main
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -75,7 +73,7 @@ jobs:
           text: "※※※※※機能不具合 検知※※※※※"
 
       - name: InSpec 正常性テスト結果
-        if: contains ( steps.inspec-check-1.outputs.INSPEC-CHECK-1, '機能不具合の検知' )　|| contains ( steps.inspec-check-last.outputs.INSPEC-CHECK-LAST, '機能不具合の検知' )
+        if: contains ( steps.inspec-check-1.outputs.INSPEC-RESULT, '機能不具合の検知' )　|| contains ( steps.inspec-check-last.outputs.INSPEC-RESULT, '機能不具合の検知' )
         run: echo "※※※※※機能不具合 検知※※※※※" && exit 1
 
   Secuity-Check:
@@ -84,13 +82,11 @@ jobs:
     steps:
       - name: Running InSpec セキュリティテスト
         continue-on-error: true
-        id: security-check
         run: for i in `knife search 'policy_group:staging' -i -c .chef/config.rb | sort`; do inspec exec --sudo test/ssh_security_test.rb --target ssh://r-goto@$i -i ~/.ssh/nodes_shared || echo "::set-output name=INSPEC_RESULT::重大なセキュリティ問題の検知"; done
         
-      - name: 不具合通知
+      - name: 不具合通知 (slack)
         continue-on-error: true
         if: contains ( steps.security-check.outputs.INSPEC_RESULT, '重大なセキュリティ問題' )
-        id: slack-notif
         uses: tokorom/action-slack-incoming-webhook@main
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
