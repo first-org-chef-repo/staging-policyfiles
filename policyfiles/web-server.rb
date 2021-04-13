@@ -15,8 +15,8 @@ cookbook 'ssh_setup', '1.0.0'
 ##########
 
 # Specify CCR interval and splay
-override['chef_client']['interval'] = 3600 #86400 # 24H
-override['chef_client']['splay'] = 600 # 1H
+override['chef_client']['interval'] = 600 #86400 # 24H
+override['chef_client']['splay'] = 60 # 1H
 
 # Specify Policy name & Policy group
 override['bootstrap_a_node']['policy_name'] = 'web-server'
