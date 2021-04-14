@@ -4,7 +4,7 @@
 # https://docs.chef.io/policyfile/
 
 name 'db-server'
-default_source :chef_server, 'https://ec2-3-112-236-1.ap-northeast-1.compute.amazonaws.com/organizations/first-org'
+default_source :chef_server, 'https://chef-automate.creationline.com/organizations/first-org'
 run_list 'bootstrap_a_node::default', 'postgresql_setup::default', 'ssh_setup::default'
 cookbook 'bootstrap_a_node', '1.0.0'
 cookbook 'postgresql_setup', '1.0.0'
