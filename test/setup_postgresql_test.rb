@@ -5,12 +5,12 @@
 # found at https://docs.chef.io/inspec/resources/
 
 case os.family
-when 'redhat' || 'centos'
+when 'redhat', 'centos'
   describe service('postgresql-12') do
     it { should be_running }
     it { should be_enabled }
   end
-when 'debian' || 'ubuntu'
+when 'debian', 'ubuntu'
   describe service('postgresql') do
     it { should be_running }
     it { should be_enabled }
