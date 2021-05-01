@@ -35,7 +35,7 @@ override['node_setup']['timezone'] = 'Asia/Tokyo'
 override['audit']['compliance_phase']
 # Set profile location
 default['audit']['profiles']['linux-baseline'] = {
-  'compliance': 'admin/linux-baseline',
+  'compliance': 'admin/ssh-baseline',
   'version': '2.2.2'
 }
 # Fetch additional profiles
