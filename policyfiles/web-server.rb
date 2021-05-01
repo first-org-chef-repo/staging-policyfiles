@@ -39,6 +39,6 @@ default['audit']['profiles']['linux-baseline'] = {
   'version': '2.2.2'
 }
 # Fetch additional profiles
-default['audit']['fetcher'] = 'chef-automate'
+default['audit']['fetcher'] = 'chef-server'
 # Set reporter
 default['audit']['reporter'] = 'chef-server-automate'
