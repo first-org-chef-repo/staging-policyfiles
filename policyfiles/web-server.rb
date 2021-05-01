@@ -32,7 +32,7 @@ override['chef_client']['handler']['slack']['enabled'] = false
 override['node_setup']['timezone'] = 'Asia/Tokyo'
 
 # Invoke the Compliance Phase
-node['audit']['compliance_phase']
+override['audit']['compliance_phase']
 # Set profile location
 default['audit']['profiles']['ssh'] = {
   'supermarket': 'hardening/ssh-hardening'
