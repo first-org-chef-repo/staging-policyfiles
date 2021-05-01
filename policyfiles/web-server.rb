@@ -34,8 +34,9 @@ override['node_setup']['timezone'] = 'Asia/Tokyo'
 # Invoke the Compliance Phase
 override['audit']['compliance_phase']
 # Set profile location
-default['audit']['profiles']['ssh'] = {
-  'supermarket': 'hardening/ssh-hardening'
+default['audit']['profiles']['linux-baseline'] = {
+  'compliance': 'user/linux-baseline',
+  'version': '2.2.2'
 }
 # Fetch additional profiles
 default['audit']['fetcher'] = 'chef-automate'
