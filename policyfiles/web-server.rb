@@ -40,4 +40,4 @@ default['audit']['profiles']['ssh'] = {
 # Fetch additional profiles
 default['audit']['fetcher'] = 'chef-automate'
 # Set reporter
-default['audit']['reporter'] = 'chef-automate'
+default['audit']['reporter'] = 'chef-server-automate'
