@@ -36,7 +36,7 @@ override['audit']['compliance_phase']
 # Set profile location
 default['audit']['profiles']['linux-baseline'] = {
   'compliance': 'admin/ssh-baseline',
-  'version': '2.2.2'
+  'version': '1.0.0'
 }
 # Fetch additional profiles
 default['audit']['fetcher'] = 'chef-server'
